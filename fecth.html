@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .img-header {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+
+        }
+        .container {
+            display: flex;
+            flex-direction: column; /* Mengatur tampilan vertikal */
+            align-items: center; /* Pusatkan elemen */
+        }
+        .header {
+            text-align: center;
+            background-color: grey;
+            color: white;
+        }
+        .card {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            width: 600px; /* Sesuaikan ukuran kartu sesuai kebutuhan Anda */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            
+        }
+        .audio {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="img-header">
+        <img src="https://cdn.dribbble.com/users/2126567/screenshots/14966908/media/07577b391ef9b10116d67f9f475a1f42.png" alt="error">
+    </div>
+    <div class="header">
+        <h1>AL Muslim</h1>
+    </div>
+    <div class="container" id="card-container">
+    </div>
+
+    <script>
+        const api = 'https://raw.githubusercontent.com/penggguna/QuranJSON/master/quran.json';
+        const cardContainer = document.getElementById('card-container');
+
+        fetch(api)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(el => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+
+                    const NamaSurat = document.createElement('h2');
+                    NamaSurat.textContent = el.name;
+
+                    const ayat = document.createElement('p');
+                    ayat.textContent = `Jumlah Ayat: ${el.number_of_ayah}`;
+
+                    const arab = document.createElement('p');
+                    arab.textContent = `Arab: ${el.name_translations.ar}`;
+
+                    const audio = document.createElement('audio');
+                    audio.setAttribute('controls', '');
+                    audio.classList.add('audio');
+                    audio.src = el.recitation;
+
+                    card.appendChild(NamaSurat);
+                    card.appendChild(ayat);
+                    card.appendChild(arab);
+                    card.appendChild(audio);
+
+                    cardContainer.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
